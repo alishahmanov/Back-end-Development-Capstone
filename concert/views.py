@@ -39,6 +39,8 @@ def service_page(request, variable, default, endpoint, template, key):
         response = requests.get(os.getenv(variable, default).rstrip("/") + endpoint, timeout=5)
         response.raise_for_status()
         records = response.json()
+        if isinstance(records, dict):
+            records = records.get(key)
         if not isinstance(records, list):
             raise ValueError("Expected a list of records")
     except (requests.RequestException, ValueError):
