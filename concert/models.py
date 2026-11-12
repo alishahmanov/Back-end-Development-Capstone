@@ -1,4 +1,4 @@
-from datetime import datetime
+from django.utils.timezone import localdate
 
 from django.db import models
 from django.contrib.auth.models import User
@@ -8,10 +8,10 @@ from django.utils.translation import gettext_lazy as _
 # Create your models here.
 
 class Concert(models.Model):
-    # concert_name
-    # duration
-    # city
-    # date
+    concert_name = models.CharField(max_length=255)
+    duration = models.FloatField()
+    city = models.CharField(max_length=255)
+    date = models.DateField(default=localdate)
 
     def __str__(self):
         return self.concert_name
@@ -41,12 +41,11 @@ class ConcertAttending(models.Model):
 
 
 class Photo(models.Model):
-    # id
-    # pic_url
-    # event_country
-    # event_state
-    # event_city
-    # event_date
+    pic_url = models.URLField()
+    event_country = models.CharField(max_length=255)
+    event_state = models.CharField(max_length=255)
+    event_city = models.CharField(max_length=255)
+    event_date = models.CharField(max_length=30)
 
     class Meta:
         managed = False
@@ -56,9 +55,8 @@ class Photo(models.Model):
 
 
 class Song(models.Model):
-    # id
-    # title
-    # lyrics
+    title = models.CharField(max_length=255)
+    lyrics = models.TextField()
 
     class Meta:
         managed = False

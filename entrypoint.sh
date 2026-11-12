@@ -1,13 +1,7 @@
 #!/bin/sh
-
-# Make migrations and migrate the database.
-echo "Making migrations and migrating the database. "
-python manage.py makemigrations --noinput
+set -eu
 python manage.py migrate --noinput
-
-DJANGO_SUPERUSER_USERNAME=admin \
-DJANGO_SUPERUSER_PASSWORD=admin \
-DJANGO_SUPERUSER_EMAIL="admin@admin.com" \
-python manage.py createsuperuser --noinput
-
+if [ -n "${DJANGO_SUPERUSER_PASSWORD:-}" ]; then
+    python manage.py createsuperuser --noinput
+fi
 exec "$@"
